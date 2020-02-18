@@ -12,21 +12,27 @@ class Player(pygame.sprite.Sprite):
         self.speedx = 0
     
     def update(self):
-        self.speedx = 0
-
+        
         keystate = pygame.key.get_pressed()
 
         if keystate[pygame.K_LEFT]:
             self.speedx = -10
         
-        if keystate[pygame.K_RIGHT]:
+        elif keystate[pygame.K_RIGHT]:
             self.speedx = 10
+        else:
+            self.speedx = 0
 
         self.rect.x += self.speedx
 
+        if self.rect.right >= 600: 
+            self.rect.x = (600 - 64)
 
-        if self.rect.right > 600 or self.rect.left  <= 0:
-            self.speedx = 0
+        if self.rect.left  <= 0:
+            self.rect.x = 0
+
+        
+        
     
     def shoot(self, bullets):
         bullet = Bullet(self.rect.centerx, self.rect.top)
