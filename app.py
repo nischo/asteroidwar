@@ -12,6 +12,7 @@ FPS = 60
 HIGHT = 800
 WIDTH = 600
 score = 1
+
 class Game(pygame.sprite.Sprite):
 
     def __init__(self):
@@ -71,8 +72,9 @@ while running:
 
     # check if a bullet hits the asteroid
     hits = pygame.sprite.groupcollide(enemys, bullets, True, True)
+
     if hits:
-        score += score
+        score += 1
         print(score)
 
     for hit in hits:

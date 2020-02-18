@@ -21,6 +21,3 @@ class Enemy(pygame.sprite.Sprite):
             
         if self.rect.bottom >= 800:
             self.kill()
-
-        if self.rect.collidepoint(600,800):
-            print("hittttt")
