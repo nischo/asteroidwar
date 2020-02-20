@@ -36,5 +36,5 @@ class Player(pygame.sprite.Sprite):
     def shoot(self, bullets):
         bullet = Bullet(self.rect.centerx, self.rect.top)
         bullets.add(bullet)
-        pass
+        
         

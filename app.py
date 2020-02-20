@@ -13,7 +13,8 @@ GREEN =(0,255,0)
 FPS = 60
 HIGHT = 800
 WIDTH = 600
-ASTEROIDS = 20
+ASTEROIDS = 5
+LIVE = 3
 
 health = 100
 score = 0
@@ -27,16 +28,24 @@ class Game(pygame.sprite.Sprite):
         self.font = pygame.font.SysFont("arial", 32)
         self.text = self.font.render("Score: ", True, (WHITE))
         self.score = self.font.render( str(score), True, (WHITE))
+        self.live = pygame.image.load('spaceship.png').convert()
+        self.live = pygame.transform.scale(self.live, (30,30))
+        
     
     def update(self):
         self.screen.fill(BLACK)
         self.screen.blit(self.text, ((WIDTH-180)/2,0))
         self.score = self.font.render( str(score), True, (WHITE))
         self.screen.blit(self.score, (WIDTH/2,0))
+        
         self.healthBorder = pygame.Rect(20,10,100,20)
         self.health = pygame.Rect(20,10,health,20)
         pygame.draw.rect(self.screen, GREEN, self.health)
         pygame.draw.rect(self.screen, WHITE, self.healthBorder,2)
+
+        for i in range(LIVE):
+            self.screen.blit(self.live, [WIDTH - (i*40) - 40,10])
+        
         
 
 pygame.init()
@@ -94,25 +103,33 @@ while running:
         enemy = Enemy()
         enemys.add(enemy)
         all_sprites.add(enemy)
+
+    for e in enemys:
+      #print('enemy:' + str(e.rect.bottom))
+      if e.rect.bottom >= 790:
+        print(e)
+        enemy = Enemy()
+        enemys.add(enemy)
+        all_sprites.add(enemy)
         
     # check if a asteroid hits the ship
-    hits = pygame.sprite.spritecollide(player, enemys, False, pygame.sprite.collide_circle)
+    hits = pygame.sprite.spritecollide(player, enemys, True, pygame.sprite.collide_circle)
 
-    if hits:
-        health -= 1
-        print(hits)
+    if hits and LIVE >= 1:
+        health -= 25
+
+        if health <= 0:
+            health = 100
+            LIVE -= 1
     
-    if health <= 0:
+    if LIVE < 1:
+ 
         print("Game Over")
         running = False
         sys.exit()
 
     game.update()
-
     all_sprites.draw(game.screen)
-
-    
-
     pygame.display.update()
 
     clock.tick(FPS)
