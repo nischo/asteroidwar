@@ -7,10 +7,12 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
         self.image = pygame.image.load('spaceship.png').convert()
         self.rect = self.image.get_rect()
+        self.radius = int(self.rect.width * 0.75/ 2)
+        #pygame.draw.circle(self.image, (255,34,55), self.rect.center, self.radius)
         self.rect.y = 730
         self.rect.x = 268
         self.speedx = 0
-    
+        
     def update(self):
         
         keystate = pygame.key.get_pressed()
@@ -30,9 +32,6 @@ class Player(pygame.sprite.Sprite):
 
         if self.rect.left  <= 0:
             self.rect.x = 0
-
-        
-        
     
     def shoot(self, bullets):
         bullet = Bullet(self.rect.centerx, self.rect.top)
