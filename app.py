@@ -104,17 +104,33 @@ while running:
         enemys.add(enemy)
         all_sprites.add(enemy)
 
-    for e in enemys:
+
+    #for e in enemys:
       #print('enemy:' + str(e.rect.bottom))
-      if e.rect.bottom >= 790:
-        print(e)
-        enemy = Enemy()
-        enemys.add(enemy)
-        all_sprites.add(enemy)
+     # if e.rect.bottom >= 792:
+        #print(e.rect)
+        #e.kill()
+        #enemy = Enemy()
+        #enemys.add(enemy)
+        #all_sprites.add(enemy)
         
     # check if a asteroid hits the ship
     hits = pygame.sprite.spritecollide(player, enemys, True, pygame.sprite.collide_circle)
 
+    for e in enemys:
+        if e.rect.bottom >= 800:
+            print(e.rect)
+            e.kill()
+            enemy = Enemy()
+            enemys.add(enemy)
+            all_sprites.add(enemy)
+   
+    if hits:
+        enemy = Enemy()
+        enemys.add(enemy)
+        all_sprites.add(enemy)
+
+        
     if hits and LIVE >= 1:
         health -= 25
 
@@ -133,3 +149,4 @@ while running:
     pygame.display.update()
 
     clock.tick(FPS)
+

@@ -22,5 +22,6 @@ class Enemy(pygame.sprite.Sprite):
             self.speedx *= -1
             
         if self.rect.bottom >= 800:
-            self.kill()
+           # self.kill()
+           pass
   
