@@ -3,6 +3,8 @@ from bullet import Bullet
 
 class Player(pygame.sprite.Sprite):
 
+    Bullets = pygame.sprite.Group()
+
     def __init__(self):
         super().__init__()
         self.image = pygame.image.load('spaceship.png').convert()
@@ -33,8 +35,8 @@ class Player(pygame.sprite.Sprite):
         if self.rect.left  <= 0:
             self.rect.x = 0
     
-    def shoot(self, bullets):
-        bullet = Bullet(self.rect.centerx, self.rect.top)
-        bullets.add(bullet)
-        
+    def shoot(self):
+
+        self.Bullets.add(Bullet(self.rect.centerx, self.rect.top))
+        print(self.Bullets)
         

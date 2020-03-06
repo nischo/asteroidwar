@@ -34,7 +34,7 @@ class Game(pygame.sprite.Sprite):
     
     def update(self):
         self.screen.fill(BLACK)
-        self.screen.blit(self.text, ((WIDTH-180)/2,0))
+        self.screen.blit(self.text, ((WIDTH-200)/2,0))
         self.score = self.font.render( str(score), True, (WHITE))
         self.screen.blit(self.score, (WIDTH/2,0))
         
@@ -42,9 +42,16 @@ class Game(pygame.sprite.Sprite):
         self.health = pygame.Rect(20,10,health,20)
         pygame.draw.rect(self.screen, GREEN, self.health)
         pygame.draw.rect(self.screen, WHITE, self.healthBorder,2)
+        self.checkLive()
 
+
+    def checkLive(self):
         for i in range(LIVE):
             self.screen.blit(self.live, [WIDTH - (i*40) - 40,10])
+        
+        if LIVE < 1:
+            print('Game Over!!')
+            running = False
         
         
 
@@ -61,7 +68,7 @@ player = Player()
 all_sprites = pygame.sprite.Group()
 player_list = pygame.sprite.Group()
 enemys = pygame.sprite.Group()
-bullets = pygame.sprite.Group()
+
 
 # add player to sprite Groupe
 player_list.add(player)
@@ -87,13 +94,13 @@ while running:
             if event.key == pygame.K_LEFT:
                 player.speed = -4
             if event.key == pygame.K_SPACE:
-                player.shoot(bullets)
-                all_sprites.add(bullets)
+                player.shoot()
+                all_sprites.add(player.Bullets)
 
     all_sprites.update()
 
-    # check if a bullet hits the asteroid
-    hits = pygame.sprite.groupcollide(enemys, bullets, True, True)
+    # check if a bullet hits the asteroid, remove Bullet and Asteroid+
+    hits = pygame.sprite.groupcollide(enemys, player.Bullets, True, True)
 
     if hits:
         score += 1
@@ -105,14 +112,6 @@ while running:
         all_sprites.add(enemy)
 
 
-    #for e in enemys:
-      #print('enemy:' + str(e.rect.bottom))
-     # if e.rect.bottom >= 792:
-        #print(e.rect)
-        #e.kill()
-        #enemy = Enemy()
-        #enemys.add(enemy)
-        #all_sprites.add(enemy)
         
     # check if a asteroid hits the ship
     hits = pygame.sprite.spritecollide(player, enemys, True, pygame.sprite.collide_circle)
@@ -138,11 +137,7 @@ while running:
             health = 100
             LIVE -= 1
     
-    if LIVE < 1:
  
-        print("Game Over")
-        running = False
-        sys.exit()
 
     game.update()
     all_sprites.draw(game.screen)
